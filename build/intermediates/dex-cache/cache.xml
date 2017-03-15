@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="cd32da3d4eb89a78540595894dc866fc46e57612">
+        <dex dex="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_d220e426ba2c7ae308fb7dc6aaa599515a107d05\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Arib\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v3.0.1\369f9aa48a629b4e92557b37326f42dc3de796e4\MPAndroidChart-v3.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="369f9aa48a629b4e92557b37326f42dc3de796e4">
+        <dex dex="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v3.0.1_0c7f5bda0de8e9b5c4269a436c9102a28b76b818\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2b13f353130c409ba8f2fd99e2b89483873d918f">
+        <dex dex="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_dcab2331eb8aa4af13684922d5bd863d4004dae7\classes.dex" />
+    </item>
+
+</items>

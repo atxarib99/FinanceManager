@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:nextFocusDown="@+id/dialog_amount"
+        android:textColor="#216C2A"
+        android:textColorHint="#CC216C2A"
+        android:id="@+id/dialog_title"
+        android:textAlignment="center"
+        android:hint="Title" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:textColor="#216C2A"
+        android:textColorHint="#CC216C2A"
+        android:nextFocusDown="@+id/dialog_category"
+        android:layout_below="@+id/dialog_title"
+        android:id="@+id/dialog_amount"
+        android:textAlignment="center"
+        android:hint="0.00" />
+
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:textColor="#216C2A"
+        android:textColorHint="#CC216C2A"
+        android:layout_below="@+id/dialog_amount"
+        android:hint="Category"
+        android:textAlignment="center"
+        android:id="@+id/dialog_category"
+        />
+
+    <Button
+        android:text="Ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:background="#ffffff"
+        android:textColor="#216C2A"
+        android:layout_below="@+id/dialog_category"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:background="#ffffff"
+        android:textColor="#216C2A"
+        android:layout_below="@+id/dialog_category"
+        android:layout_toStartOf="@+id/button3" />
+</RelativeLayout>

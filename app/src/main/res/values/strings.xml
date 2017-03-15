@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Finance Manager</string>
+    <string name="menu_addition">+</string>
+    <string name="value_balance">balancevalues</string>
+    <string name="value_month">monthvalues</string>
+    <string name="menu_pastmonths">Past Data</string>
+    <string name="exit">EXIT</string>
+    <string name="option_dialog_title">Choose an option</string>
+    <string name="listview_item_image">Button to let user know that clicking allows options</string>
+    <string name="mainactivity_month_placeholder">Month</string>
+    <string name="mainactivity_balancetitle">Balance:</string>
+    <string name="help_text">Long press an item for options</string>
+    <string name="invoice_menuitem">Send Invoice</string>
+    <string name="graph_menuitem">Graph</string>
+</resources>
