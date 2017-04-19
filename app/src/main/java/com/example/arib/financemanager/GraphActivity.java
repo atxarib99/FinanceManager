@@ -44,7 +44,14 @@ public class GraphActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        double value = intent.getDoubleExtra("Total Balance", 0.0);
+        String fromWhere = intent.getStringExtra("type");
+        double value;
+
+        if(fromWhere.equals("Main"))
+            value = intent.getDoubleExtra("Total Balance Main", 0.0);
+        else
+            value = intent.getDoubleExtra("Total Balance Past", 0.0);
+
         spent = value;
         ActionBar bar = getActionBar();
         assert bar != null;
@@ -57,8 +64,10 @@ public class GraphActivity extends Activity {
         Description desc = new Description();
         desc.setEnabled(false);
 
-        getItems();
-
+        if(fromWhere.equals("Main"))
+            getItems();
+        else
+            getPastItems();
         pieChart.setDescription(desc);
 
 
@@ -145,6 +154,42 @@ public class GraphActivity extends Activity {
         }
 
     }
+
+    private void getPastItems() {
+        //how many categories are there?
+        int totalItems = PastDataActivity.expenses.size();
+        ArrayList<String> numberOfCats = new ArrayList<>();
+        for(int i = 0; i < totalItems; i++) {
+            if(!(numberOfCats.contains(PastDataActivity.expenses.get(i).getCategory()))) {
+                numberOfCats.add(PastDataActivity.expenses.get(i).getCategory());
+            }
+        }
+        Log.d(LOG_TAG, numberOfCats.toString());
+        values = new float[numberOfCats.size()];
+        names = new String[numberOfCats.size()];
+        // how many of first category divided by total number
+        double totalItemsd = (double) totalItems;
+        for(int i = 0; i < numberOfCats.size(); i++) {
+            double thisCatAmount = 0;
+            double totalSpent = 0;
+            for(int k = 0; k < totalItems; k++) {
+                if(numberOfCats.get(i).equals(PastDataActivity.expenses.get(k).getCategory())) {
+                    thisCatAmount++;
+                    totalSpent += PastDataActivity.expenses.get(k).getAmount();
+                }
+            }
+
+            String sTotalSpent = String.format(Locale.getDefault(), "%.2f", totalSpent);
+            Log.d(LOG_TAG, thisCatAmount + "--" + totalItemsd);
+            Log.d(LOG_TAG, (thisCatAmount/totalItems) * 100.0 + "");
+            values[i] = (float) (totalSpent / spent) * 100;
+            names[i] = numberOfCats.get(i) + " $" + sTotalSpent;
+            Log.d(LOG_TAG, Arrays.toString(values));
+            Log.d(LOG_TAG, Arrays.toString(names));
+        }
+
+    }
+
 
     private void updateBalance(double value) {
         TextView balance = (TextView) findViewById(R.id.graph_balance);

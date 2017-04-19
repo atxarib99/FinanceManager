@@ -2,9 +2,13 @@ package com.example.arib.financemanager;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,12 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class PastDataActivity extends Activity {
 
     String textualExpenses;
-    private ArrayList<Expenses> expenses;
+    static ArrayList<Expenses> expenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,41 @@ public class PastDataActivity extends Activity {
         updateBalance();
         updateList();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_past, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_graph) {
+            Intent intent = new Intent(this, GraphActivity.class);
+            intent.putExtra("Total Balance Past", updateBalance());
+            intent.putExtra("type", "Past");
+            startActivity(intent);
+        }
+        if(id == R.id.action_invoice) {
+            Calendar cal = Calendar.getInstance();
+//
+//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//            emailIntent.setType("plain/text");
+//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
+//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
+//            emailIntent.putExtra(Intent.EXTRA_TEXT, getStringOfData());
+//            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            Intent intent = new Intent(
+                    Intent.ACTION_SENDTO,
+                    Uri.parse("mailto:testemail@gmail.com")
+            );
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public ArrayList<Expenses> getExpenses() {
         String finalString = textualExpenses.replace("[", "");
@@ -55,7 +95,7 @@ public class PastDataActivity extends Activity {
         listView.setAdapter(adapter);
     }
 
-    public void updateBalance() {
+    public double updateBalance() {
         double tempBalance = 0;
         for(Expenses e : expenses) {
             tempBalance += e.getAmount();
@@ -64,6 +104,7 @@ public class PastDataActivity extends Activity {
         //Locale.getDefault() get the location because letters vary in different regions of the world
         String stringBalance = String.format(Locale.getDefault(), "%.2f", tempBalance);
         balance.setText(stringBalance);
+        return tempBalance;
     }
 
 

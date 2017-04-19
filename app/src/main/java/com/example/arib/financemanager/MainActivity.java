@@ -94,7 +94,8 @@ public class MainActivity extends Activity {
         }
         if(id == R.id.action_graph) {
             Intent intent = new Intent(this, GraphActivity.class);
-            intent.putExtra("Total Balance", updateBalance());
+            intent.putExtra("Total Balance Main", updateBalance());
+            intent.putExtra("type", "Main");
             startActivity(intent);
         }
         if(id == R.id.action_invoice) {
