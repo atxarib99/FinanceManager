@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:textColor="#216C2A"
+        android:textColorHint="#CC216C2A"
+        android:id="@+id/readencrypteddatadialog_textbox"
+        android:textAlignment="textStart"
+        android:hint="Title" />
+
+    <Button
+        android:text="Ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/readencrypteddatadialog_ok"
+        android:background="#ffffff"
+        android:textColor="#216C2A"
+        android:layout_below="@+id/readencrypteddatadialog_textbox"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/readencrypteddatadialog_cancel"
+        android:background="#ffffff"
+        android:textColor="#216C2A"
+        android:layout_below="@+id/readencrypteddatadialog_textbox"
+        android:layout_toStartOf="@+id/readencrypteddatadialog_ok" />
+</RelativeLayout>
