@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="d18dd23e3bb2a9b5a5c4077a9a0e8c76b8d24379">
+        sha1="f34410b19532a5c95fddf15ab81ad9ed7b11f93d">
         <dex dex="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_d220e426ba2c7ae308fb7dc6aaa599515a107d05\classes.dex" />
     </item>
     <item
@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="c99bf429d4ea6f01d13c5782875670757d5aafce">
+        sha1="18b7c87c91935ff92ae4dd20812389878d4aced2">
         <dex dex="C:\Users\Arib\Desktop\School\FinanceManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_dcab2331eb8aa4af13684922d5bd863d4004dae7\classes.dex" />
     </item>
 
