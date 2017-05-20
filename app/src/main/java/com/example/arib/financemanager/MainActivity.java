@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
             FileInputStream fis = this.openFileInput(strMonth + year);
             ObjectInputStream ois = new ObjectInputStream(fis);
             dataFile = (DataFile) ois.readObject();
-            expenses = dataFile.getExpenses();
+            expenses = getExpensesFromString(dataFile.toString());
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't find this month's file", Toast.LENGTH_SHORT).show();
             expenses = new ArrayList<>();
@@ -100,18 +100,30 @@ public class MainActivity extends Activity {
         }
         if(id == R.id.action_invoice) {
             Calendar cal = Calendar.getInstance();
-//
-//            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//            emailIntent.setType("plain/text");
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
-//            emailIntent.putExtra(Intent.EXTRA_TEXT, getStringOfData());
-//            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            Intent intent = new Intent(
-                    Intent.ACTION_SENDTO,
-                    Uri.parse("mailto:testemail@gmail.com")
-            );
-            startActivity(intent);
+
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, getStringOfData());
+            Intent where = Intent.createChooser(emailIntent, null);
+            startActivity(where);
+//            Intent intent = new Intent(
+//                    Intent.ACTION_SENDTO,
+//                    Uri.parse("mailto:testemail@gmail.com")
+//            );
+        }
+
+        if(id == R.id.action_invoiceencrypted) {
+            Calendar cal = Calendar.getInstance();
+
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, EncryptionManager.createEncryptedString(expenses.toString()));
+            Intent where = Intent.createChooser(emailIntent, null);
+            startActivity(where);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -308,12 +320,50 @@ public class MainActivity extends Activity {
             ObjectInputStream ois = new ObjectInputStream(fis);
             dataFile = (DataFile) ois.readObject();
             Intent intent = new Intent(this, PastDataActivity.class);
-            intent.putExtra("list", dataFile.getExpenses().toString());
+            intent.putExtra("list", dataFile.toString());
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't find this month's file", Toast.LENGTH_SHORT).show();
             Log.e(LOG_TAG, e.toString());
         }
+    }
+
+    public void readPublicFile(String encryptedFile) {
+        final Dialog enterEncryptedDataDialog = new Dialog(this);
+        enterEncryptedDataDialog.setContentView(R.layout.dialog_readencrypteddata);
+        enterEncryptedDataDialog.setTitle(getString(R.string.enterencrypteddatadialog_title));
+
+        final EditText textBox = (EditText) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_textbox);
+
+        Button okButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_ok);
+        Button cancelButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_cancel);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String encryptedData = textBox.getText().toString();
+                if(encryptedData.equals("")) {
+                    Toast.makeText(MainActivity.this, "No Data Given!", Toast.LENGTH_LONG).show();
+                    enterEncryptedDataDialog.dismiss();
+                }
+                String decryptedData = EncryptionManager.readEncryptedString(encryptedData);
+                ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
+                if(newExpenses.size() == 0) {
+                    Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
+                    enterEncryptedDataDialog.dismiss();
+                }
+                expenses.addAll(newExpenses);
+
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterEncryptedDataDialog.cancel();
+            }
+        });
+        enterEncryptedDataDialog.show();
     }
 
     public void updateList() {
@@ -420,6 +470,32 @@ public class MainActivity extends Activity {
         }
         Log.d(LOG_TAG, stringOfData);
         return stringOfData;
+    }
+
+    protected static ArrayList<Expenses> getExpensesFromString(String textualExpenses) {
+        String localLOG_TAG = "getExpensesFromString Method";
+        ArrayList<Expenses> returnable = new ArrayList<>();
+        if(!textualExpenses.contains("[") || !textualExpenses.contains(","))
+            return returnable;
+        String finalString = textualExpenses.replace("[", "");
+        finalString = finalString.replace("]", "");
+        String[] arrayToConvert = finalString.split(", ");
+        for(String s : arrayToConvert) {
+            String[] indivExpense = s.split("-");
+            if(indivExpense.length != 4) {
+                returnable = new ArrayList<>();
+                return returnable;
+            }
+            Log.d(localLOG_TAG, returnable + "");
+            Log.d(localLOG_TAG, Arrays.toString(indivExpense));
+            String title = indivExpense[0];
+            double amount = Double.parseDouble(indivExpense[1]);
+            String category = indivExpense[2];
+            String date = indivExpense[3];
+            returnable.add(new Expenses(title, amount, category, date));
+        }
+
+        return returnable;
     }
 
     private class MyListAdapter extends ArrayAdapter<Expenses> {
