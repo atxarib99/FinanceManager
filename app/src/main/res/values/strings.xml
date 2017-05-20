@@ -11,5 +11,7 @@
     <string name="mainactivity_balancetitle">Balance:</string>
     <string name="help_text">Long press an item for options</string>
     <string name="invoice_menuitem">Send Invoice</string>
+    <string name="invoice_menuitemencrypted">Send Encrypted Invoice</string>
     <string name="graph_menuitem">Graph</string>
+    <string name="enterencrypteddatadialog_title">Paste Encrypted Data Here:</string>
 </resources>
