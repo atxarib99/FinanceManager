@@ -46,4 +46,8 @@ class DataFile implements Serializable {
 
         return returnable;
     }
+
+    public String toString() {
+        return textualExpenses;
+    }
 }
