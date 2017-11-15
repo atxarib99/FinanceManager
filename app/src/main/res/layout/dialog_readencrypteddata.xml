@@ -11,7 +11,7 @@
         android:textColorHint="#CC216C2A"
         android:id="@+id/readencrypteddatadialog_textbox"
         android:textAlignment="textStart"
-        android:hint="Title" />
+        android:hint="Paste Encrypted Data Here:" />
 
     <Button
         android:text="Ok"

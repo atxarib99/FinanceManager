@@ -1,17 +1,30 @@
 package com.example.arib.financemanager;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
+import android.provider.Telephony;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +39,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -34,21 +50,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.prefs.Preferences;
 
 import static java.net.Proxy.Type.HTTP;
 
-//TODO: FINISH CATEGORY IMPLEMENTATION
 //TODO: GRAPHICAL INTERFACE
 public class MainActivity extends Activity {
 
     protected static ArrayList<Expenses> expenses;
     protected static ArrayList<String> categories;
+    protected static ArrayList<String> receivedTexts;
+    private String sendingNumber;
     Expenses selectedExpense;
-
+    SmsManager smsManager;
     private final String LOG_TAG = this.getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        boolean openReadEncrypt = intent.getBooleanExtra(getString(R.string.notification_key), false);
+        Log.d(LOG_TAG, openReadEncrypt + ": should we open encrypt dialog");
+        askForPermissions();
+        smsManager = SmsManager.getDefault();
+        sendingNumber = "";
         ActionBar bar = getActionBar();
         assert bar != null;
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4E9455")));
@@ -57,7 +81,6 @@ public class MainActivity extends Activity {
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
         String strMonth = getMonth(month);
-
         Log.d(LOG_TAG, strMonth + year);
         DataFile dataFile;
         try {
@@ -65,6 +88,11 @@ public class MainActivity extends Activity {
             ObjectInputStream ois = new ObjectInputStream(fis);
             dataFile = (DataFile) ois.readObject();
             expenses = getExpensesFromString(dataFile.toString());
+            Log.d(LOG_TAG, ""+expenses.size() + expenses.toString());
+            if(expenses.size() == 0) {
+                expenses = new ArrayList<>();
+                Toast.makeText(this, "Couldn't find this month's file", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't find this month's file", Toast.LENGTH_SHORT).show();
             expenses = new ArrayList<>();
@@ -72,9 +100,17 @@ public class MainActivity extends Activity {
         TextView monthView = (TextView) findViewById(R.id.month);
         monthView.setText(strMonth);
         categories = new ArrayList<>();
+        receivedTexts = new ArrayList<>();
         updateBalance();
         updateList();
         setOptionsListener();
+        if(openReadEncrypt) {
+            String msg = intent.getStringExtra(getString(R.string.notification_data_key));
+            Log.d(LOG_TAG, msg);
+            if(!msg.equals("")) {
+                readPublicFile(msg);
+            }
+        }
     }
 
     @Override
@@ -99,32 +135,34 @@ public class MainActivity extends Activity {
             startActivity(intent);
         }
         if(id == R.id.action_invoice) {
-            Calendar cal = Calendar.getInstance();
-
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setType("plain/text");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
-            emailIntent.putExtra(Intent.EXTRA_TEXT, getStringOfData());
-            Intent where = Intent.createChooser(emailIntent, null);
-            startActivity(where);
-//            Intent intent = new Intent(
-//                    Intent.ACTION_SENDTO,
-//                    Uri.parse("mailto:testemail@gmail.com")
-//            );
+            Intent smsIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(smsIntent, 26);
         }
 
         if(id == R.id.action_invoiceencrypted) {
-            Calendar cal = Calendar.getInstance();
-
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setType("plain/text");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {""}); // recipients
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Invoice of " + getMonth(cal.get(Calendar.MONTH) + 1));
-            emailIntent.putExtra(Intent.EXTRA_TEXT, EncryptionManager.createEncryptedString(expenses.toString()));
-            Intent where = Intent.createChooser(emailIntent, null);
-            startActivity(where);
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(intent, 25);
         }
+
+        if(id == R.id.action_inputdata) {
+            readPublicFile();
+        }
+
+        if(id == R.id.action_restorebackup) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String defaultString = "KEY_NOT_FOUND";
+            String backupData = prefs.getString(getString(R.string.backup_key), defaultString);
+            if(backupData.equals(defaultString)) {
+                Toast.makeText(MainActivity.this, "Backup not found!", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            expenses = getExpensesFromString(backupData);
+            updateList();
+            updateBalance();
+            saveFile();
+        }
+
+        //TODO: IMPLEMENT SETTINGS LAUNCH
         return super.onOptionsItemSelected(item);
     }
 
@@ -197,9 +235,11 @@ public class MainActivity extends Activity {
                 updateList();
                 updateBalance();
                 saveFile();
+                saveBackup();
                 dialog.dismiss();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
             }
         });
         Button buttonCancel = (Button) dialog.findViewById(R.id.button);
@@ -210,8 +250,6 @@ public class MainActivity extends Activity {
                 dialog.cancel();
             }
         });
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
         return dialog;
     }
 
@@ -223,15 +261,16 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0) {
-                    getAddDialog(selectedExpense.getTitle(), selectedExpense.getAmount() + "", selectedExpense.getCategory(), selectedExpense).show();
+                    getAddDialog(selectedExpense.getTitle(), selectedExpense.getAmount() + "",
+                            selectedExpense.getCategory(), selectedExpense).show();
                     dialog.dismiss();
                 }
                 if(which == 1) {
                     expenses.remove(selectedExpense);
-                    //TODO: add confirmation dialog.
                     dialog.dismiss();
                     updateList();
                     updateBalance();
+                    saveFile();
                 }
                 if(which == 2) {
                     getInfoDialog().show();
@@ -242,17 +281,27 @@ public class MainActivity extends Activity {
         return builder.create();
     }
 
-    public AlertDialog getInfoDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    public Dialog getInfoDialog() {
+        Dialog builder = new Dialog(this);
         builder.setTitle("Info");
+        builder.setContentView(R.layout.dialog_info);
         String title = selectedExpense.getTitle();
-        String expense = "$" + selectedExpense.getAmount();
+        String expense = String.format("%.2f", selectedExpense.getAmount()); //check locale
+        expense = "$" + expense;
         String category = selectedExpense.getCategory();
         String date = selectedExpense.getDate();
-        String info = title + "\n"+ "\n" + expense + "\n" + "\n" + category  + "\n" + "\n" + date;
-        builder.setMessage(info);
 
-        return builder.create();
+        TextView titleView = (TextView) builder.findViewById(R.id.infodialog_title);
+        TextView amountView = (TextView) builder.findViewById(R.id.infodialog_amount);
+        TextView categoryView = (TextView) builder.findViewById(R.id.infodialog_category);
+        TextView dateView = (TextView) builder.findViewById(R.id.infodialog_date);
+
+        titleView.setText(title);
+        amountView.setText(expense);
+        categoryView.setText(category);
+        dateView.setText(date);
+
+        return builder;
     }
 
     public Dialog getPastMonthDialog() {
@@ -296,6 +345,13 @@ public class MainActivity extends Activity {
         return builder.create();
     }
 
+    public void saveBackup() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(getString(R.string.backup_key), expenses.toString());
+        editor.apply();
+    }
+
     public void saveFile() {
         Calendar calendar = Calendar.getInstance();
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -321,6 +377,7 @@ public class MainActivity extends Activity {
             dataFile = (DataFile) ois.readObject();
             Intent intent = new Intent(this, PastDataActivity.class);
             intent.putExtra("list", dataFile.toString());
+            intent.putExtra("month", filename.substring(0, filename.length() - 4));
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(this, "Couldn't find this month's file", Toast.LENGTH_SHORT).show();
@@ -328,12 +385,17 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void readPublicFile(String encryptedFile) {
+    protected void readPublicFile() {
+        readPublicFile("");
+    }
+
+    protected void readPublicFile(String encryptedFile) {
         final Dialog enterEncryptedDataDialog = new Dialog(this);
         enterEncryptedDataDialog.setContentView(R.layout.dialog_readencrypteddata);
         enterEncryptedDataDialog.setTitle(getString(R.string.enterencrypteddatadialog_title));
 
         final EditText textBox = (EditText) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_textbox);
+        textBox.setText(encryptedFile);
 
         Button okButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_ok);
         Button cancelButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_cancel);
@@ -347,12 +409,25 @@ public class MainActivity extends Activity {
                     enterEncryptedDataDialog.dismiss();
                 }
                 String decryptedData = EncryptionManager.readEncryptedString(encryptedData);
-                ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
-                if(newExpenses.size() == 0) {
+                if(decryptedData.equals("NODATAFOUND")) {
                     Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
                     enterEncryptedDataDialog.dismiss();
                 }
-                expenses.addAll(newExpenses);
+                else {
+                    ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
+                    if (newExpenses.size() == 0) {
+                        Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
+                    }
+                    for(Expenses e : newExpenses) {
+                        e.setTitle(e.getTitle() + "*");
+                    }
+                    expenses.addAll(newExpenses);
+                    enterEncryptedDataDialog.dismiss();
+                    saveFile();
+                    saveBackup();
+                    updateList();
+                    updateBalance();
+                }
 
             }
         });
@@ -411,7 +486,6 @@ public class MainActivity extends Activity {
                 vibrator.vibrate(100);
                 int startSize = expenses.size();
                 selectedExpense = expenses.get(position);
-//                expenses.remove(position);
                 getOptionDialog().show();
                 parent.requestLayout(); //This properly updates the view NECESSARY
                 updateList();
@@ -441,7 +515,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public String getStringOfData() {
+    protected String getStringOfData() {
         String stringOfData;
         stringOfData = "Total Spent: $" + String.format(Locale.getDefault(), "%.2f", updateBalance()) + "\n\n";
         stringOfData += "By Category\n";
@@ -475,7 +549,7 @@ public class MainActivity extends Activity {
     protected static ArrayList<Expenses> getExpensesFromString(String textualExpenses) {
         String localLOG_TAG = "getExpensesFromString Method";
         ArrayList<Expenses> returnable = new ArrayList<>();
-        if(!textualExpenses.contains("[") || !textualExpenses.contains(","))
+        if(!textualExpenses.contains("["))
             return returnable;
         String finalString = textualExpenses.replace("[", "");
         finalString = finalString.replace("]", "");
@@ -486,8 +560,6 @@ public class MainActivity extends Activity {
                 returnable = new ArrayList<>();
                 return returnable;
             }
-            Log.d(localLOG_TAG, returnable + "");
-            Log.d(localLOG_TAG, Arrays.toString(indivExpense));
             String title = indivExpense[0];
             double amount = Double.parseDouble(indivExpense[1]);
             String category = indivExpense[2];
@@ -496,6 +568,99 @@ public class MainActivity extends Activity {
         }
 
         return returnable;
+    }
+
+    private void askForPermissions() {
+        //check out current permissions and Log them
+        int permissionCheckReceive = this.checkSelfPermission(Manifest.permission.RECEIVE_SMS);
+        int permissionCheckSend = this.checkSelfPermission(Manifest.permission.SEND_SMS);
+        int permissionCheckContacts = this.checkSelfPermission(Manifest.permission.READ_CONTACTS);
+        int permissionCheckPhoneState = this.checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+        Log.d(LOG_TAG, "RECEIVE PERMISSION " + permissionCheckReceive);
+        Log.d(LOG_TAG, "SEND PERMISSION " + permissionCheckSend);
+        Log.d(LOG_TAG, "READ CONTACTS " + permissionCheckContacts);
+        Log.d(LOG_TAG, "READ PHONE STATE " + permissionCheckPhoneState);
+
+        //if we need the permission, ask user.
+        if(permissionCheckReceive == -1) { //-1 is denied, 0 is granted
+            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, 22);
+            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR RECEIVE");
+        }
+        if(permissionCheckSend == -1) {
+            requestPermissions(new String[] {Manifest.permission.SEND_SMS}, 23);
+            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR SEND");
+        }
+        if(permissionCheckContacts == -1) {
+            requestPermissions(new String[] {Manifest.permission.READ_CONTACTS}, 24);
+            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR CONTACTS");
+        }
+        if(permissionCheckPhoneState == -1) {
+            requestPermissions(new String[] {Manifest.permission.READ_PHONE_STATE}, 27);
+            Log.d(LOG_TAG, "ASKING FOR PERMISSION TO CHECK THE PHONES STATE");
+        }
+
+        //check what permissions we have after asking
+        permissionCheckReceive = this.checkSelfPermission(Manifest.permission.RECEIVE_SMS);
+        permissionCheckSend = this.checkSelfPermission(Manifest.permission.SEND_SMS);
+        permissionCheckContacts = this.checkSelfPermission(Manifest.permission.READ_CONTACTS);
+        permissionCheckPhoneState = this.checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+        Log.d(LOG_TAG, "RECEIVE PERMISSION " + permissionCheckReceive);
+        Log.d(LOG_TAG, "SEND PERMISSION " + permissionCheckSend);
+        Log.d(LOG_TAG, "READ CONTACTS " + permissionCheckContacts);
+        Log.d(LOG_TAG, "READ PHONE STATE " + permissionCheckPhoneState);
+
+    }
+
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        switch (reqCode) {
+            case (25) :
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri contactData = data.getData();
+                    Cursor c =  getContentResolver().query(contactData, null, null, null, null);
+                    ContentResolver contact_resolver = getContentResolver();
+                    if (c.moveToFirst()) {
+                        String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                        Cursor phoneCur = contact_resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+
+                        if (phoneCur.moveToFirst()) {
+                            String no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            Log.d(LOG_TAG, no);
+                            String smsBody = "!#@$" + EncryptionManager.createEncryptedString(expenses.toString());
+                            Log.d(LOG_TAG, smsBody);
+                            ArrayList<String> parts = smsManager.divideMessage(smsBody);
+                            smsManager.sendMultipartTextMessage(no, null, parts, null, null);
+                        }
+
+                    }
+                    c.close();
+                }
+                break;
+            case(26) :
+                Calendar cal = Calendar.getInstance();
+                if(resultCode == Activity.RESULT_OK) {
+                    Uri contactData = data.getData();
+                    Cursor c = getContentResolver().query(contactData, null, null, null, null);
+                    ContentResolver contactResolver = getContentResolver();
+                    if(c.moveToFirst()) {
+                        String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                        Cursor phoneCur = contactResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+                        if(phoneCur.moveToFirst()) {
+                            String no = phoneCur.getString(phoneCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            Log.d(LOG_TAG, no);
+
+                            String smsBody = "Invoice of: " + getMonth(cal.get(Calendar.MONTH) + 1) + "\n\n";
+                            smsBody += getStringOfData();
+                            ArrayList<String> parts = smsManager.divideMessage(smsBody);
+                            smsManager.sendMultipartTextMessage(no, null, parts, null, null);
+                        }
+                    }
+                    c.close();
+                }
+        }
     }
 
     private class MyListAdapter extends ArrayAdapter<Expenses> {

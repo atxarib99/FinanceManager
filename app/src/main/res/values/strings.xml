@@ -13,5 +13,18 @@
     <string name="invoice_menuitem">Send Invoice</string>
     <string name="invoice_menuitemencrypted">Send Encrypted Invoice</string>
     <string name="graph_menuitem">Graph</string>
-    <string name="enterencrypteddatadialog_title">Paste Encrypted Data Here:</string>
+    <string name="input_menuitem">Input Data</string>
+    <string name="enterencrypteddatadialog_title">Input Data</string>
+
+    <string name="backup_menuitem">Restore Backup</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_SMSReader">Read SMS</string>
+    <string name="settings_aboutHeaderText">About</string>
+    <string name="settings_aboutMeText">Creator: Arib Dhuka</string>
+
+    <string name="backup_key">BackupDataInPreferences</string>
+    <string name="readsms_key">ShouldReadSMS</string>
+    <string name="notification_key">NewDataNotification</string>
+    <string name="notification_data_key">!DataKey!</string>
+    <string name="settingsActivitySwitchText">Find Data From SMS</string>
 </resources>

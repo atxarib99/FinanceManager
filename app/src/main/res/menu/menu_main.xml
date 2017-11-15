@@ -10,4 +10,8 @@
         android:orderInCategory="4" android:title="@string/invoice_menuitem"/>
     <item android:id="@+id/action_invoiceencrypted" android:showAsAction="never"
         android:orderInCategory="4" android:title="@string/invoice_menuitemencrypted"/>
+    <item android:id="@+id/action_inputdata" android:showAsAction="never"
+        android:orderInCategory="99" android:title="@string/input_menuitem" />
+    <item android:id="@+id/action_restorebackup" android:title="@string/backup_menuitem"
+        android:orderInCategory="100" android:showAsAction="never" />
 </menu>
