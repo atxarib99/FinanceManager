@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -54,7 +55,7 @@ import java.util.prefs.Preferences;
 
 import static java.net.Proxy.Type.HTTP;
 
-//TODO: GRAPHICAL INTERFACE
+//TODO: LIST VIEW VIEW CHANGE ON CLICK
 public class MainActivity extends Activity {
 
     protected static ArrayList<Expenses> expenses;
@@ -69,7 +70,21 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         boolean openReadEncrypt = intent.getBooleanExtra(getString(R.string.notification_key), false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!prefs.contains(getString(R.string.readsms_key))) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(getString(R.string.readsms_key), true);
+            editor.commit();
+            Log.d(LOG_TAG, "read sms pref did not exist created with default true");
+        }
+        if(!prefs.contains(getString(R.string.addstar_key))) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(getString(R.string.addstar_key), true);
+            editor.commit();
+            Log.d(LOG_TAG, "add star pref did not exist created with default true");
+        }
         Log.d(LOG_TAG, openReadEncrypt + ": should we open encrypt dialog");
+        Log.d(LOG_TAG, prefs.getBoolean(getString(R.string.readsms_key), false) + "");
         askForPermissions();
         smsManager = SmsManager.getDefault();
         sendingNumber = "";
@@ -160,6 +175,11 @@ public class MainActivity extends Activity {
             updateList();
             updateBalance();
             saveFile();
+        }
+
+        if(id == R.id.action_settings)
+        {
+            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         //TODO: IMPLEMENT SETTINGS LAUNCH
@@ -390,6 +410,7 @@ public class MainActivity extends Activity {
     }
 
     protected void readPublicFile(String encryptedFile) {
+        //create dialog
         final Dialog enterEncryptedDataDialog = new Dialog(this);
         enterEncryptedDataDialog.setContentView(R.layout.dialog_readencrypteddata);
         enterEncryptedDataDialog.setTitle(getString(R.string.enterencrypteddatadialog_title));
@@ -418,8 +439,12 @@ public class MainActivity extends Activity {
                     if (newExpenses.size() == 0) {
                         Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
                     }
-                    for(Expenses e : newExpenses) {
-                        e.setTitle(e.getTitle() + "*");
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    boolean addStar = prefs.getBoolean(getString(R.string.addstar_key), true);
+                    if(addStar) {
+                        for (Expenses e : newExpenses) {
+                            e.setTitle(e.getTitle() + "*");
+                        }
                     }
                     expenses.addAll(newExpenses);
                     enterEncryptedDataDialog.dismiss();

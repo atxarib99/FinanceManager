@@ -68,15 +68,17 @@ public class SmsReceiver extends BroadcastReceiver {
 
         }
 
-        if(!msg.equals("")) {
+        if(!msg.equals("") && shouldNotify) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             Notification.Builder notification = new Notification.Builder(context).setContentTitle("Finance Manager").setContentText("You have received new data!").setSmallIcon(R.drawable.ic_notifications_black_24dp);
+            Notification notificationBuilt = notification.build();
+            notificationBuilt.flags |= Notification.FLAG_AUTO_CANCEL;
             Intent resultIntent = new Intent(context, MainActivity.class);
             resultIntent.putExtra(context.getString(R.string.notification_key), true);
             resultIntent.putExtra(context.getString(R.string.notification_data_key), msg);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
-            notificationManager.notify(30, notification.build());
+            notificationManager.notify(30, notificationBuilt);
         }
 
     }

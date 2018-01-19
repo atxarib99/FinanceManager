@@ -14,6 +14,7 @@
     <string name="invoice_menuitemencrypted">Send Encrypted Invoice</string>
     <string name="graph_menuitem">Graph</string>
     <string name="input_menuitem">Input Data</string>
+    <string name="settings_menuitem">Settings</string>
     <string name="enterencrypteddatadialog_title">Input Data</string>
 
     <string name="backup_menuitem">Restore Backup</string>
@@ -24,7 +25,9 @@
 
     <string name="backup_key">BackupDataInPreferences</string>
     <string name="readsms_key">ShouldReadSMS</string>
+    <string name="addstar_key">ShouldAddStar</string>
     <string name="notification_key">NewDataNotification</string>
     <string name="notification_data_key">!DataKey!</string>
-    <string name="settingsActivitySwitchText">Find Data From SMS</string>
+    <string name="settingsActivityReadSMSSwitchText">Find Data From SMS</string>
+    <string name="settingsActivityAddStarSwitchText">Add A Star When Importing Encrypted Data</string>
 </resources>
