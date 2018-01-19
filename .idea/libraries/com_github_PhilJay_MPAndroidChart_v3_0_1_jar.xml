@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="MPAndroidChart-v3.0.1">
+  <library name="com.github.PhilJay:MPAndroidChart:v3.0.1@jar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v3.0.1/369f9aa48a629b4e92557b37326f42dc3de796e4/MPAndroidChart-v3.0.1.jar!/" />
     </CLASSES>
