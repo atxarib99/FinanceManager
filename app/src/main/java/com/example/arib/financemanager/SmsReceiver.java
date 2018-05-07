@@ -14,14 +14,20 @@ import android.util.Log;
 
 import java.util.Collections;
 
+//handles reading SMS and finding data for the app
 public class SmsReceiver extends BroadcastReceiver {
+
+    //log tag for this class
     private String TAG = SmsReceiver.class.getSimpleName();
-    String tempStr = "";
+    //boolean that holds if we should notify the user
     boolean shouldNotify;
+
+    //constructor
     public SmsReceiver() {
         Log.d(TAG, "Receiver: Listening!");
     }
 
+    //Handles what to do on receiving a text
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -53,21 +59,12 @@ public class SmsReceiver extends BroadcastReceiver {
                     if((msgs[i].getOriginatingAddress() + " : ").equals(str)) {
                         msg += msgs[i].getMessageBody();
                     }
-                    try {
-                        MainActivity.receivedTexts.add(str);
-                        if(!tempStr.equals("")) {
-                            String[] tobeAdded = tempStr.split("$^%&");
-                            Collections.addAll(MainActivity.receivedTexts, tobeAdded);
-                        }
-                    } catch (NullPointerException e) {
-                        tempStr += str;
-                        tempStr += "$^%&";
-                    }
                 }
             }
 
         }
 
+        //if we have a message and the sms reading is enabled by the user then create and send notification
         if(!msg.equals("") && shouldNotify) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             Notification.Builder notification = new Notification.Builder(context).setContentTitle("Finance Manager").setContentText("You have received new data!").setSmallIcon(R.drawable.ic_notifications_black_24dp);

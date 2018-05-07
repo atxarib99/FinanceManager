@@ -13,12 +13,17 @@ import android.widget.Switch;
 
 public class SettingsActivity extends Activity {
 
+    //On creation of the activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set the color for the applicatiopn
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4E9455")));
+        //set the view
         setContentView(R.layout.activity_settings);
+
+        //get the preferences and set the switches to the proper values
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
         Switch readSmsSwitch = (Switch) findViewById(R.id.settings_readSMSSwitch);
         readSmsSwitch.setChecked(prefs.getBoolean(getString(R.string.readsms_key), false));
