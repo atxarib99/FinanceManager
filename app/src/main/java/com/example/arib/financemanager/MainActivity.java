@@ -609,68 +609,78 @@ public class MainActivity extends Activity {
         //set the text to the parameter: could be blank
         textBox.setText(encryptedFile);
 
-        //create ok and cancel buttons and link them to the view
-        Button okButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_ok);
+        //create ok, cancel, and view buttons and link them to the view
+        Button addButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_ok);
         Button cancelButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_cancel);
+        Button viewButton = (Button) enterEncryptedDataDialog.findViewById(R.id.readencrypteddatadialog_view);
 
         //set the on click for the ok button
-        okButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //get the text from the edit text box
                 String encryptedData = textBox.getText().toString();
 
+                //boolean that holds that everything is fine
+                boolean isOk = true;
+
                 //if its blank say that no data was given and close
                 if(encryptedData.equals("")) {
                     Toast.makeText(MainActivity.this, "No Data Given!", Toast.LENGTH_LONG).show();
                     enterEncryptedDataDialog.dismiss();
+                    isOk = false;
                 }
 
-                //decrypt the data from the EncryptionManager class note:Not on Github
-                String decryptedData = EncryptionManager.readEncryptedString(encryptedData);
+                //if data is ok
+                if(isOk) {
+                    //holds the decrypted data
+                    String decryptedData;
 
-                //if the decrypted data returns the following string the data could not be parsed properly
-                if(decryptedData.equals("NODATAFOUND")) {
-                    //Tell the user the data was not decrypted properly
-                    Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
-                    //close the dialog
-                    enterEncryptedDataDialog.dismiss();
-                }
-                else {
-                    //else if we do have good data
+                    //decrypt the data from the EncryptionManager class note:Not on Github for security reasons i guess
+                    decryptedData = EncryptionManager.readEncryptedString(encryptedData);
 
-                    //store the new expenses into a new list
-                    ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
-
-                    //if the new list we just made has a size of 0, then there was bad or no data
-                    if (newExpenses.size() == 0) {
+                    //if the decrypted data returns the following string the data could not be parsed properly
+                    if (decryptedData.equals("NODATAFOUND")) {
+                        //Tell the user the data was not decrypted properly
                         Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
-                    }
+                        //close the dialog
+                        enterEncryptedDataDialog.dismiss();
+                    } else {
+                        //else if we do have good data
 
-                    //Get the preference manager and find out if the user has declared for there to be stars after added other user's data
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                    boolean addStar = prefs.getBoolean(getString(R.string.addstar_key), true);
+                        //store the new expenses into a new list
+                        ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
 
-                    //if the user has declared there to be a star then add a star to each expense in the newExpeneses list
-                    if(addStar) {
-                        for (Expenses e : newExpenses) {
-                            e.setTitle(e.getTitle() + "*");
+                        //if the new list we just made has a size of 0, then there was bad or no data
+                        if (newExpenses.size() == 0) {
+                            Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
                         }
+
+                        //Get the preference manager and find out if the user has declared for there to be stars after added other user's data
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        boolean addStar = prefs.getBoolean(getString(R.string.addstar_key), true);
+
+                        //if the user has declared there to be a star then add a star to each expense in the newExpeneses list
+                        if (addStar) {
+                            for (Expenses e : newExpenses) {
+                                e.setTitle(e.getTitle() + "*");
+                            }
+                        }
+
+                        //add all the expenses from the newExpenses list to the list linked to the UI
+                        expenses.addAll(newExpenses);
+
+                        //close the dialog
+                        enterEncryptedDataDialog.dismiss();
+
+                        //save the data
+                        saveFile();
+                        saveBackup();
+
+                        //update the UI
+                        updateList();
+                        updateBalance();
                     }
-
-                    //add all the expenses from the newExpenses list to the list linked to the UI
-                    expenses.addAll(newExpenses);
-
-                    //close the dialog
-                    enterEncryptedDataDialog.dismiss();
-
-                    //save the data
-                    saveFile();
-                    saveBackup();
-
-                    //update the UI
-                    updateList();
-                    updateBalance();
                 }
             }
         });
@@ -681,6 +691,61 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 enterEncryptedDataDialog.cancel();
+            }
+        });
+
+        //onclick for the view button
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //get the text from the edit text box
+                String encryptedData = textBox.getText().toString();
+
+                //boolean that holds that everything is fine
+                boolean isOk = true;
+
+                //if its blank say that no data was given and close
+                if(encryptedData.equals("")) {
+                    Toast.makeText(MainActivity.this, "No Data Given!", Toast.LENGTH_LONG).show();
+                    enterEncryptedDataDialog.dismiss();
+                    isOk = false;
+                }
+
+                //if data is ok
+                if(isOk) {
+                    //holds the decrypted data
+                    String decryptedData;
+
+                    //decrypt the data from the EncryptionManager class note:Not on Github for security reasons i guess
+                    decryptedData = EncryptionManager.readEncryptedString(encryptedData);
+
+                    //if the decrypted data returns the following string the data could not be parsed properly
+                    if (decryptedData.equals("NODATAFOUND")) {
+                        //Tell the user the data was not decrypted properly
+                        Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
+                        //close the dialog
+                        enterEncryptedDataDialog.dismiss();
+                    } else {
+                        //else if we do have good data
+
+                        //store the new expenses into a new list
+                        ArrayList<Expenses> newExpenses = getExpensesFromString(decryptedData);
+
+                        //if the new list we just made has a size of 0, then there was bad or no data
+                        if (newExpenses.size() == 0) {
+                            Toast.makeText(MainActivity.this, "Decryption Error! No Expenses found", Toast.LENGTH_LONG).show();
+                        } else
+                        {
+                            //if the data is good launch PastDataActivity with the data we pulled
+                            Intent viewIntent = new Intent(MainActivity.this, PastDataActivity.class);
+                            viewIntent.putExtra("month", "Input");
+                            viewIntent.putExtra("list", decryptedData);
+                            startActivity(viewIntent);
+                        }
+                    }
+                }
+
+
             }
         });
 

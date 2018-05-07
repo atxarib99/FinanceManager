@@ -11,10 +11,10 @@
         android:textColorHint="#CC216C2A"
         android:id="@+id/readencrypteddatadialog_textbox"
         android:textAlignment="textStart"
-        android:hint="Paste Encrypted Data Here:" />
+        android:hint="@string/readencrypteddatadialog_text_hint" />
 
     <Button
-        android:text="Ok"
+        android:text="@string/readencrypteddatadialog_button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/readencrypteddatadialog_ok"
@@ -24,7 +24,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Cancel"
+        android:text="@string/readencrypteddatadialog_button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/readencrypteddatadialog_cancel"
@@ -32,4 +32,14 @@
         android:textColor="#216C2A"
         android:layout_below="@+id/readencrypteddatadialog_textbox"
         android:layout_toStartOf="@+id/readencrypteddatadialog_ok" />
+
+    <Button
+        android:id="@+id/readencrypteddatadialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/readencrypteddatadialog_textbox"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"
+        android:text="@string/readencrypteddatadialog_button_view"
+        android:textColor="#216C2A" />
 </RelativeLayout>

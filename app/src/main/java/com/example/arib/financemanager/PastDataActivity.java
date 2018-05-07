@@ -79,6 +79,8 @@ public class PastDataActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_past, menu);
+        //get title
+        TextView title = (TextView) findViewById(R.id.month);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -30,4 +30,8 @@
     <string name="notification_data_key">!DataKey!</string>
     <string name="settingsActivityReadSMSSwitchText">Find Data From SMS</string>
     <string name="settingsActivityAddStarSwitchText">Add A Star When Importing Encrypted Data</string>
+    <string name="readencrypteddatadialog_button_view">View</string>
+    <string name="readencrypteddatadialog_button_cancel">Cancel</string>
+    <string name="readencrypteddatadialog_button_add">Add</string>
+    <string name="readencrypteddatadialog_text_hint">Paste Encrypted Data Here:</string>
 </resources>
