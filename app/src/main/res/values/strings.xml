@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Finance Manager</string>
-    <string name="menu_addition">+</string>
+    <string name="menu_addition">New Item</string>
     <string name="value_balance">balancevalues</string>
     <string name="value_month">monthvalues</string>
     <string name="menu_pastmonths">Past Data</string>
