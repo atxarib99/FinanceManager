@@ -1,10 +1,17 @@
+#it seems some of the below are not triggering properly
+/.gradle
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/dictionaries
+/.idea/libraries
+
 # Built application files
 *.apk
 *.ap_
 
 # Files for the ART/Dalvik VM
 *.dex
-
 # Java class files
 *.class
 
