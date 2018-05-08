@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 //activity for the past data
@@ -118,9 +120,9 @@ public class PastDataActivity extends Activity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(selectedExpense == null) return false;
                 selectedExpense = expenses.get(position);
-                getInfoDialog();
+                if(selectedExpense == null) return false;
+                getInfoDialog().show();
                 return true;
             }
         });
