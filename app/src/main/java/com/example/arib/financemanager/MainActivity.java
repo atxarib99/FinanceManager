@@ -55,7 +55,7 @@ import java.util.prefs.Preferences;
 
 import static java.net.Proxy.Type.HTTP;
 
-//TODO: LIST VIEW VIEW CHANGE ON CLICK
+//TODO: LISTVIEW VIEW CHANGE ON CLICK
 public class MainActivity extends Activity {
 
     //holds the expenses
@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
             editor.putBoolean(getString(R.string.addstar_key), true);
             editor.commit();
         }
+
         //ask for permissions from the user
         askForPermissions();
 
@@ -1014,23 +1015,8 @@ public class MainActivity extends Activity {
         Log.d(LOG_TAG, "READ CONTACTS " + permissionCheckContacts);
         Log.d(LOG_TAG, "READ PHONE STATE " + permissionCheckPhoneState);
 
-        //if we need the permission, ask user.
-        if(permissionCheckReceive == -1) { //-1 is denied, 0 is granted
-            requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS}, 22);
-            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR RECEIVE");
-        }
-        if(permissionCheckSend == -1) {
-            requestPermissions(new String[] {Manifest.permission.SEND_SMS}, 23);
-            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR SEND");
-        }
-        if(permissionCheckContacts == -1) {
-            requestPermissions(new String[] {Manifest.permission.READ_CONTACTS}, 24);
-            Log.d(LOG_TAG, "ASKING FOR PERMISSIONS FOR CONTACTS");
-        }
-        if(permissionCheckPhoneState == -1) {
-            requestPermissions(new String[] {Manifest.permission.READ_PHONE_STATE}, 27);
-            Log.d(LOG_TAG, "ASKING FOR PERMISSION TO CHECK THE PHONES STATE");
-        }
+        requestPermissions(new String[] {Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS,
+                Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE}, 22);
 
         //check what permissions we have after asking
         permissionCheckReceive = this.checkSelfPermission(Manifest.permission.RECEIVE_SMS);
@@ -1041,6 +1027,14 @@ public class MainActivity extends Activity {
         Log.d(LOG_TAG, "SEND PERMISSION " + permissionCheckSend);
         Log.d(LOG_TAG, "READ CONTACTS " + permissionCheckContacts);
         Log.d(LOG_TAG, "READ PHONE STATE " + permissionCheckPhoneState);
+
+        //if we dont have the consent to read texts.. don't (if only society understood this)
+        if(permissionCheckReceive == -1) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(getString(R.string.readsms_key), false);
+            edit.commit();
+        }
 
     }
 
