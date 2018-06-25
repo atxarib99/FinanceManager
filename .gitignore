@@ -1,10 +1,11 @@
 #it seems some of the below are not triggering properly
-/.gradle
+/.gradle/
 /.idea/workspace.xml
 /.idea/tasks.xml
 /.idea/gradle.xml
 /.idea/dictionaries
 /.idea/libraries
+/build
 
 # Built application files
 *.apk
