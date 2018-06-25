@@ -14,8 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5234f1b8-4540-40d8-904f-5fb734a481b0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <ignored path="Finance Manager.iws" />
     <ignored path=".idea/" />
@@ -55,12 +54,21 @@
             <state relative-caret-position="7800">
               <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
               <folding>
+                <element signature="imports" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#9875#9876#0" expanded="false" />
+                <element signature="e#9931#9932#0" expanded="false" />
                 <element signature="method#getAddDialog#1;class#MainActivity#0" expanded="false" />
                 <element signature="e#16312#16335#0" expanded="false" />
                 <element signature="e#17184#17225#0" expanded="false" />
+                <element signature="e#20647#20648#0" expanded="false" />
+                <element signature="e#20695#20696#0" expanded="false" />
                 <element signature="method#saveBackup#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#saveFile#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#23503#23504#0" expanded="false" />
+                <element signature="e#23537#23538#0" expanded="false" />
+                <element signature="e#28281#28282#0" expanded="false" />
+                <element signature="e#28346#28347#0" expanded="false" />
                 <element signature="method#updateList#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#updateSuggestions#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#updateBalance#0;class#MainActivity#0" expanded="false" />
@@ -75,6 +83,8 @@
                 <element signature="e#38692#38766#0" expanded="false" />
                 <element signature="e#39488#39527#0" expanded="false" />
                 <element signature="class#MyListAdapter#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#46874#46875#0" expanded="false" />
+                <element signature="e#46956#46957#0" expanded="false" />
                 <element signature="method#getView#0;class#MyListAdapter#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
@@ -100,8 +110,21 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="30" column="36" lean-forward="false" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
+            <state relative-caret-position="261">
+              <caret line="23" column="39" lean-forward="true" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+              <folding>
+                <element signature="e#482#511#0" expanded="true" />
+                <element signature="e#857#886#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="49" lean-forward="false" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -112,7 +135,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3975">
               <caret line="292" column="64" lean-forward="false" selection-start-line="292" selection-start-column="64" selection-end-line="292" selection-end-column="64" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#11869#11870#0" expanded="false" />
+                <element signature="e#11955#11956#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1767,11 +1794,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arib/financemanager/SmsReceiver.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arib/financemanager/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_readencrypteddata.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_past.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arib/financemanager/PastDataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/arib/financemanager/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/listview_itemexpanded.xml" />
       </list>
     </option>
@@ -1832,6 +1859,10 @@
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1845,10 +1876,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1977,7 +2004,7 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529965965299" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529966217113" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2024,7 +2051,7 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529965965299" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529966217113" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2185,7 +2212,7 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529965965302" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1529966217115" />
       </method>
     </configuration>
     <list size="1">
@@ -2584,13 +2611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="52" lean-forward="false" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -2643,7 +2663,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3975">
           <caret line="292" column="64" lean-forward="false" selection-start-line="292" selection-start-column="64" selection-end-line="292" selection-end-column="64" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#11869#11870#0" expanded="false" />
+            <element signature="e#11955#11956#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2652,12 +2676,21 @@
         <state relative-caret-position="7800">
           <caret line="747" column="0" lean-forward="false" selection-start-line="747" selection-start-column="0" selection-end-line="747" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#9875#9876#0" expanded="false" />
+            <element signature="e#9931#9932#0" expanded="false" />
             <element signature="method#getAddDialog#1;class#MainActivity#0" expanded="false" />
             <element signature="e#16312#16335#0" expanded="false" />
             <element signature="e#17184#17225#0" expanded="false" />
+            <element signature="e#20647#20648#0" expanded="false" />
+            <element signature="e#20695#20696#0" expanded="false" />
             <element signature="method#saveBackup#0;class#MainActivity#0" expanded="false" />
             <element signature="method#saveFile#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#23503#23504#0" expanded="false" />
+            <element signature="e#23537#23538#0" expanded="false" />
+            <element signature="e#28281#28282#0" expanded="false" />
+            <element signature="e#28346#28347#0" expanded="false" />
             <element signature="method#updateList#0;class#MainActivity#0" expanded="false" />
             <element signature="method#updateSuggestions#0;class#MainActivity#0" expanded="false" />
             <element signature="method#updateBalance#0;class#MainActivity#0" expanded="false" />
@@ -2672,6 +2705,8 @@
             <element signature="e#38692#38766#0" expanded="false" />
             <element signature="e#39488#39527#0" expanded="false" />
             <element signature="class#MyListAdapter#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#46874#46875#0" expanded="false" />
+            <element signature="e#46956#46957#0" expanded="false" />
             <element signature="method#getView#0;class#MyListAdapter#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
@@ -2688,14 +2723,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="49" lean-forward="false" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/listview_itemexpanded.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="30" column="36" lean-forward="false" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="261">
+          <caret line="23" column="39" lean-forward="true" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+          <folding>
+            <element signature="e#482#511#0" expanded="true" />
+            <element signature="e#857#886#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
