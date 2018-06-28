@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/sharedialog_encrypt"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:background="@android:drawable/ic_secure" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sharedialog_encrypt"
+        android:layout_marginStart="15dp"
+        android:text="@string/invoice_menuitemencrypted" />
+
+    <Button
+        android:id="@+id/sharedialog_unencrypted"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginStart="19dp"
+        android:background="@android:drawable/ic_partial_secure" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:layout_below="@+id/sharedialog_unencrypted"
+        android:text="@string/invoice_menuitem"
+        android:id="@+id/textView3" />
+</RelativeLayout>

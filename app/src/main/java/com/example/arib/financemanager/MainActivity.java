@@ -189,6 +189,10 @@ public class MainActivity extends Activity {
             getPastMonthDialog().show();
         }
 
+        if(id == R.id.action_share) {
+            getShareDialog().show();
+        }
+
         //if it was the graph option launch the graph activity
         if(id == R.id.action_graph) {
             Intent intent = new Intent(this, GraphActivity.class);
@@ -198,18 +202,6 @@ public class MainActivity extends Activity {
             intent.putExtra("type", "Main");
             //start the activity
             startActivity(intent);
-        }
-
-        //if the invoice option is selected ask to whom they want to send the data
-        if(id == R.id.action_invoice) {
-            Intent smsIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-            startActivityForResult(smsIntent, 26);
-        }
-
-        //if the encrypted invoice option is selected ask to whom they want to send the data
-        if(id == R.id.action_invoiceencrypted) {
-            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-            startActivityForResult(intent, 25);
         }
 
         //if the input data option is selected read open the dialog to past the data
@@ -524,6 +516,40 @@ public class MainActivity extends Activity {
 
         //returns the AlertDialog
         return builder.create();
+    }
+
+    //creates the share dialog
+    public Dialog getShareDialog() {
+        //create the dialog
+        final Dialog builder = new Dialog(this);
+        //set the title to the following
+        builder.setTitle("Share");
+        //set the view to a layout from the layout folder
+        builder.setContentView(R.layout.dialog_share);
+
+        Button encrypted = (Button) builder.findViewById(R.id.sharedialog_encrypt);
+        Button unencrypted = (Button) builder.findViewById(R.id.sharedialog_unencrypted);
+
+        encrypted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, 25);
+                builder.dismiss();
+            }
+        });
+
+        unencrypted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent smsIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(smsIntent, 26);
+                builder.dismiss();
+            }
+        });
+
+        //return the dialog
+        return builder;
     }
 
     //saves the data to a backup location

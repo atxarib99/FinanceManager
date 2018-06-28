@@ -2,18 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_addition" android:title="@string/menu_addition" android:orderInCategory="1"
         android:showAsAction="always" android:icon="@android:drawable/ic_menu_add" />
+
+    <item android:id="@+id/action_graph" android:title="@string/graph_menuitem"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:orderInCategory="2" android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_share" android:icon="@android:drawable/ic_menu_share"
+        android:orderInCategory="3" android:showAsAction="ifRoom" android:title="@string/menu_share" />
+
     <item android:id="@+id/action_pastdata" android:title="@string/menu_pastmonths"
-        android:orderInCategory="2" android:showAsAction="never" />
-    <item android:id="@+id/action_graph" android:title="@string/graph_menuitem" android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:orderInCategory="3" android:showAsAction="ifRoom" />
-    <item android:id="@+id/action_invoice" android:showAsAction="never"
-        android:orderInCategory="4" android:title="@string/invoice_menuitem"/>
-    <item android:id="@+id/action_invoiceencrypted" android:showAsAction="never"
-        android:orderInCategory="4" android:title="@string/invoice_menuitemencrypted"/>
+        android:orderInCategory="4" android:showAsAction="never" />
+
     <item android:id="@+id/action_inputdata" android:showAsAction="never"
         android:orderInCategory="99" android:title="@string/input_menuitem" />
+
     <item android:id="@+id/action_restorebackup" android:title="@string/backup_menuitem"
         android:orderInCategory="100" android:showAsAction="never" />
+
     <item android:id="@+id/action_settings" android:title="@string/settings_menuitem"
         android:orderInCategory="101" android:showAsAction="never" />
+
 </menu>

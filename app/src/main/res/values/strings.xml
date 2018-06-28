@@ -4,13 +4,14 @@
     <string name="value_balance">balancevalues</string>
     <string name="value_month">monthvalues</string>
     <string name="menu_pastmonths">Past Data</string>
+    <string name="menu_share">Share</string>
     <string name="exit">EXIT</string>
     <string name="option_dialog_title">Choose an option</string>
     <string name="listview_item_image">Button to let user know that clicking allows options</string>
     <string name="mainactivity_month_placeholder">Month</string>
     <string name="mainactivity_balancetitle">Balance:</string>
-    <string name="invoice_menuitem">Send Invoice</string>
-    <string name="invoice_menuitemencrypted">Send Encrypted Invoice</string>
+    <string name="invoice_menuitem">Send Unencrypted</string>
+    <string name="invoice_menuitemencrypted">Send Encrypted</string>
     <string name="graph_menuitem">Graph</string>
     <string name="input_menuitem">Input Data</string>
     <string name="settings_menuitem">Settings</string>
@@ -33,4 +34,5 @@
     <string name="readencrypteddatadialog_button_cancel">Cancel</string>
     <string name="readencrypteddatadialog_button_add">Add</string>
     <string name="readencrypteddatadialog_text_hint">Paste Encrypted Data Here:</string>
+
 </resources>
