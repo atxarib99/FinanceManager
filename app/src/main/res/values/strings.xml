@@ -9,7 +9,6 @@
     <string name="listview_item_image">Button to let user know that clicking allows options</string>
     <string name="mainactivity_month_placeholder">Month</string>
     <string name="mainactivity_balancetitle">Balance:</string>
-    <string name="help_text">Long press an item for options</string>
     <string name="invoice_menuitem">Send Invoice</string>
     <string name="invoice_menuitemencrypted">Send Encrypted Invoice</string>
     <string name="graph_menuitem">Graph</string>

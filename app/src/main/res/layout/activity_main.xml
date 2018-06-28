@@ -41,13 +41,4 @@
         android:longClickable="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/helpTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textSize="15sp"
-        android:layout_below="@id/expensesList"
-        android:text="@string/help_text"/>
 </RelativeLayout>

@@ -839,8 +839,6 @@ public class MainActivity extends Activity {
                 //set the duration of the vibrate
                 vibrator.vibrate(100);
 
-                //get the start size of the list
-                int startSize = expenses.size();
                 //get the selected item
                 selectedExpense = expenses.get(position);
 
@@ -856,11 +854,15 @@ public class MainActivity extends Activity {
                 //save the file but not the backup because delete is possible
                 saveFile();
 
-                //check if the size is the same
-                int endSize = expenses.size();
-
                 //return if the sizes changed
-                return startSize != endSize;
+                return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, "Press and hold for options.", Toast.LENGTH_SHORT).show();
             }
         });
     }
