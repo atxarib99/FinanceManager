@@ -33,6 +33,16 @@
         android:layout_marginTop="20dp"
         android:id="@+id/balance" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/balance"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/mainactivity_helptext"
+        android:text="@string/mainactivity_emptylistviewtext"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

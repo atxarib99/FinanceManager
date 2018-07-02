@@ -24,11 +24,12 @@
     <string name="notification_data_key">!DataKey!</string>
     <string name="value_balance">balancevalues</string>
     <string name="value_month">monthvalues</string>
-    
+
     <!--mainactivity-->
     <string name="mainactivity_month_placeholder">Month</string>
     <string name="mainactivity_balancetitle">Balance:</string>
     <string name="listview_item_image">Button to let user know that clicking allows options</string>
+    <string name="mainactivity_emptylistviewtext">Press the \'+\' to get started!</string>
 
 
     <!--settingsactivity-->

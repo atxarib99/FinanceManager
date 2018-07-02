@@ -69,7 +69,6 @@ public class MainActivity extends Activity {
     //LOG_TAG for this class
     private final String LOG_TAG = this.getClass().getSimpleName();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +109,10 @@ public class MainActivity extends Activity {
         //get the month and year in a string format
         String strMonth = getMonth(month);
 
+        //Display the month at the top of the screen
+        TextView monthView = (TextView) findViewById(R.id.month);
+        monthView.setText(strMonth);
+
         //create the DataFile object we will try to load the data file if it exists
         DataFile dataFile;
         try {
@@ -135,10 +138,6 @@ public class MainActivity extends Activity {
             expenses = new ArrayList<>();
         }
 
-        //Display the month at the top of the screen
-        TextView monthView = (TextView) findViewById(R.id.month);
-        monthView.setText(strMonth);
-
         //start with empty categories
         categories = new ArrayList<>();
 
@@ -147,6 +146,10 @@ public class MainActivity extends Activity {
 
         //update the listview from the array
         updateList();
+
+        //once the listview is updated check if the list is empty
+        if(!expenses.isEmpty())
+            ((TextView) findViewById(R.id.mainactivity_helptext)).setText("");
 
         //set a listener to listen for the long click on a listview item
         setOptionsListener();
@@ -527,9 +530,11 @@ public class MainActivity extends Activity {
         //set the view to a layout from the layout folder
         builder.setContentView(R.layout.dialog_share);
 
+        //link objects to button in the view
         Button encrypted = (Button) builder.findViewById(R.id.sharedialog_encrypt);
         Button unencrypted = (Button) builder.findViewById(R.id.sharedialog_unencrypted);
 
+        //set on clicks
         encrypted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -538,7 +543,6 @@ public class MainActivity extends Activity {
                 builder.dismiss();
             }
         });
-
         unencrypted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -790,6 +794,13 @@ public class MainActivity extends Activity {
 
         //set the custom adapter to the listview object
         listView.setAdapter(adapter);
+
+        //once the listview is updated check if the list is empty if not empty dont show help
+        if(!expenses.isEmpty())
+            ((TextView) findViewById(R.id.mainactivity_helptext)).setText("");
+        else
+            ((TextView) findViewById(R.id.mainactivity_helptext)).setText(R.string.mainactivity_emptylistviewtext);
+
     }
 
     //update the suggestions for categories
