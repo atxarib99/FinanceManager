@@ -1,38 +1,49 @@
 <resources>
+
     <string name="app_name">Finance Manager</string>
+
+    <!--menuitems-->
     <string name="menu_addition">New Item</string>
-    <string name="value_balance">balancevalues</string>
-    <string name="value_month">monthvalues</string>
     <string name="menu_pastmonths">Past Data</string>
     <string name="menu_share">Share</string>
     <string name="exit">EXIT</string>
-    <string name="option_dialog_title">Choose an option</string>
-    <string name="listview_item_image">Button to let user know that clicking allows options</string>
-    <string name="mainactivity_month_placeholder">Month</string>
-    <string name="mainactivity_balancetitle">Balance:</string>
     <string name="invoice_menuitem">Send Unencrypted</string>
     <string name="invoice_menuitemencrypted">Send Encrypted</string>
     <string name="graph_menuitem">Graph</string>
     <string name="input_menuitem">Input Data</string>
     <string name="settings_menuitem">Settings</string>
+    <string name="backup_menuitem">Restore Backup</string>
     <string name="enterencrypteddatadialog_title">Input Data</string>
 
-    <string name="backup_menuitem">Restore Backup</string>
-    <string name="title_activity_settings">Settings</string>
-    <string name="settings_SMSReader">Read SMS</string>
-    <string name="settings_aboutHeaderText">About</string>
-    <string name="settings_aboutMeText">Creator: Arib Dhuka</string>
 
+    <!--preferencekeys-->
     <string name="backup_key">BackupDataInPreferences</string>
     <string name="readsms_key">ShouldReadSMS</string>
     <string name="addstar_key">ShouldAddStar</string>
     <string name="notification_key">NewDataNotification</string>
     <string name="notification_data_key">!DataKey!</string>
+    <string name="value_balance">balancevalues</string>
+    <string name="value_month">monthvalues</string>
+    
+    <!--mainactivity-->
+    <string name="mainactivity_month_placeholder">Month</string>
+    <string name="mainactivity_balancetitle">Balance:</string>
+    <string name="listview_item_image">Button to let user know that clicking allows options</string>
+
+
+    <!--settingsactivity-->
     <string name="settingsActivityReadSMSSwitchText">Find Data From SMS</string>
     <string name="settingsActivityAddStarSwitchText">Add A Star When Importing Encrypted Data</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_SMSReader">Read SMS</string>
+    <string name="settings_aboutHeaderText">About</string>
+    <string name="settings_aboutMeText">Creator: Arib Dhuka</string>
+
+    <!--dialogs-->
     <string name="readencrypteddatadialog_button_view">View</string>
     <string name="readencrypteddatadialog_button_cancel">Cancel</string>
     <string name="readencrypteddatadialog_button_add">Add</string>
     <string name="readencrypteddatadialog_text_hint">Paste Encrypted Data Here:</string>
+    <string name="option_dialog_title">Choose an option</string>
 
 </resources>
