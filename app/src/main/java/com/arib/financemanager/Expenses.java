@@ -1,4 +1,4 @@
-package com.example.arib.financemanager;
+package com.arib.financemanager;
 
 /**
  * Created by Arib on 12/4/2016.
