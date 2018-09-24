@@ -62,6 +62,9 @@ public class PastDataActivity extends Activity {
         textualExpenses = getIntent().getStringExtra("list");
         //gets the month name from the intent
         String monthName = getIntent().getStringExtra("month");
+
+        if(monthName.equals("Input"))
+            findViewById(R.id.mainactivity_helptext).setVisibility(View.INVISIBLE);
         //Creates textviews
         TextView title = (TextView) findViewById(R.id.month);
         //sets data

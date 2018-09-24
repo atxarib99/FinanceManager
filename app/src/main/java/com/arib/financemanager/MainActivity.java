@@ -41,6 +41,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+
 import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
@@ -69,6 +75,9 @@ public class MainActivity extends Activity {
     //LOG_TAG for this class
     private final String LOG_TAG = this.getClass().getSimpleName();
 
+    //handles full page ads (sorry guys need $)
+    InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +97,11 @@ public class MainActivity extends Activity {
             editor.commit();
         }
         //add back up to drive preference if it does not exist
-        if(!prefs.contains(getString(R.string.drive_key))) {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(getString(R.string.drive_key), false);
-            getDriveAskDialog();
-        }
+//        if(!prefs.contains(getString(R.string.drive_key))) {
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putBoolean(getString(R.string.drive_key), false);
+//            getDriveAskDialog();
+//        }
 
         //ask for permissions from the user
         askForPermissions();
@@ -174,6 +183,30 @@ public class MainActivity extends Activity {
                 readPublicFile(msg);
             }
         }
+
+        //initialize mobile ads
+        MobileAds.initialize(this, "ca-app-pub-4951063651201264/6004145428");
+
+        //load an ad
+        AdView mAdView = (AdView) findViewById(R.id.mainactivity_adView);
+        AdRequest bannerAdRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(bannerAdRequest);
+
+        //load full page ad
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-4951063651201264/2801490916");
+        AdRequest interstitialAdRequest = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(interstitialAdRequest);
+
+        //load new add on close
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+        });
     }
 
     //creates the menu
@@ -204,6 +237,14 @@ public class MainActivity extends Activity {
 
         //if it was the graph option launch the graph activity
         if(id == R.id.action_graph) {
+
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                Log.d("TAG", "The interstitial was shown.");
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
+
             Intent intent = new Intent(this, GraphActivity.class);
             //give the balance in the intent
             intent.putExtra("Total Balance Main", updateBalance());

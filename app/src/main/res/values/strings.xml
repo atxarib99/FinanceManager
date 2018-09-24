@@ -24,6 +24,7 @@
     <string name="notification_data_key">!DataKey!</string>
     <string name="value_balance">balancevalues</string>
     <string name="value_month">monthvalues</string>
+    <string name="drive_key">drivekey</string>
 
     <!--mainactivity-->
     <string name="mainactivity_month_placeholder">Month</string>

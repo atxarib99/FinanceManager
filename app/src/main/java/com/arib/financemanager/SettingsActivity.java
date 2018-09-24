@@ -46,16 +46,16 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        Switch backupToDriveSwitch = (Switch) findViewById(R.id.settings_backupToDriveSwitch);
-        backupToDriveSwitch.setChecked(prefs.getBoolean(getString(R.string.drive_key), false));
-        backupToDriveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean(getString(R.string.drive_key), isChecked);
-                editor.apply();
-            }
-        });
+//        Switch backupToDriveSwitch = (Switch) findViewById(R.id.settings_backupToDriveSwitch);
+//        backupToDriveSwitch.setChecked(prefs.getBoolean(getString(R.string.drive_key), false));
+//        backupToDriveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                SharedPreferences.Editor editor = prefs.edit();
+//                editor.putBoolean(getString(R.string.drive_key), isChecked);
+//                editor.apply();
+//            }
+//        });
     }
 
 
