@@ -61,7 +61,6 @@ import java.util.prefs.Preferences;
 
 import static java.net.Proxy.Type.HTTP;
 
-//TODO: LISTVIEW VIEW CHANGE ON CLICK
 public class MainActivity extends Activity {
 
     //holds the expenses
@@ -205,6 +204,12 @@ public class MainActivity extends Activity {
                 // Load the next interstitial.
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.d(LOG_TAG + " ADS:", "failed to load, retrying.");
+            }
+
 
         });
     }
