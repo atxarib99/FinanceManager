@@ -242,7 +242,6 @@ public class MainActivity extends Activity {
 
         //if it was the graph option launch the graph activity
         if(id == R.id.action_graph) {
-
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
                 Log.d("TAG", "The interstitial was shown.");
@@ -314,6 +313,10 @@ public class MainActivity extends Activity {
         //create a dialog object and give it the view from the layout folder
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.alertdialog_view);
+
+        //bring up the keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
         //update the autocomplete suggestions
         updateSuggestions(dialog);
