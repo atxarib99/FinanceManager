@@ -1,7 +1,11 @@
 #it seems some of the below are not triggering properly
 /.gradle/
-/build
-/.idea/
+/build/
+*.idea/
+*.bin
+*.lock
+
+
 
 # Built application files
 *.apk
@@ -57,3 +61,10 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+*.bin
+*.bin
+*.bin
+*.lock
+.idea/workspace.xml
+.idea/workspace.xml
+.idea/workspace.xml
