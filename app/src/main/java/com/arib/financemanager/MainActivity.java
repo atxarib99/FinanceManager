@@ -184,10 +184,11 @@ public class MainActivity extends Activity {
         }
 
         //initialize mobile ads
-        MobileAds.initialize(this, "ca-app-pub-4951063651201264/6004145428");
+        MobileAds.initialize(this, "ca-app-pub-4951063651201264~1192061624");
 
         //load an ad
         AdView mAdView = (AdView) findViewById(R.id.mainactivity_adView);
+        mAdView.setAdUnitId("ca-app-pub-4951063651201264/6004145428");
         AdRequest bannerAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(bannerAdRequest);
 
