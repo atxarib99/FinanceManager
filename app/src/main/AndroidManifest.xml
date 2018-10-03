@@ -40,8 +40,7 @@
             android:name=".PastDataActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".GraphActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".GraphActivity" />
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
