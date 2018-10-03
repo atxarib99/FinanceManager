@@ -188,13 +188,13 @@ public class MainActivity extends Activity {
 
         //load an ad
         AdView mAdView = (AdView) findViewById(R.id.mainactivity_adView);
-        mAdView.setAdUnitId("ca-app-pub-4951063651201264/6004145428");
         AdRequest bannerAdRequest = new AdRequest.Builder().build();
         mAdView.loadAd(bannerAdRequest);
 
         //load full page ad
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-4951063651201264/2801490916");
+        if(mInterstitialAd.getAdUnitId() == null || mInterstitialAd.getAdUnitId().isEmpty())
+            mInterstitialAd.setAdUnitId("ca-app-pub-4951063651201264/2801490916");
         AdRequest interstitialAdRequest = new AdRequest.Builder().build();
         mInterstitialAd.loadAd(interstitialAdRequest);
 
